@@ -1,0 +1,175 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Laboratorio 1
+
+Enunciado:
+Se cuenta con las notas de 5 estudianes
+
+los primeros cuatro digitos corresponden a una nota y el quinto corresponde a la mayoria de edad mayor = true
+
+
+1.1 Vectores y matrices:
+Crear un vector por cada estudiante, que almacene los 5 registros
+
+```{r}
+
+student_1 <- c(50.4, 62.3, 92.1, 77.6 , TRUE)
+student_2 <- c(41.7, 87.9, 75.3, 72.4, FALSE)
+student_3 <- c(30.3, 67.8, 69.3, 71.2, FALSE)
+student_4 <- c(65.4, 85.1, 92.3, 96.8, TRUE)
+student_5 <- c( 70.4, 88.2, 95.2, 90.7, TRUE)
+
+student_1
+student_2
+student_3
+student_4
+student_5
+
+```
+1.2 cree el vector students_vector, sus elementos seran cada uno de los vectores creados
+
+```{r}
+students_vector <- c(student_1,student_2,student_3,student_4,student_5)
+students_vector
+
+```
+
+1.3 Construya una matriz de nombre students_matrix que reciba como parámetro
+students_vector.
+
+
+```{r}
+students_matrix <- matrix(students_vector, 5, 5 , byrow= TRUE)
+students_matrix
+```
+
+2. NOMBRADO DE UNA MATRIZ
+
+2.1. Cree los vectores name_students y name_courses_legal_age con los siguientes valores:
+name_students = { “Lily Brown”, “Davis Moore”, “Susan Taylor”, “Mike Jones”,
+“Tom Hill” }
+
+
+name_courses_legal_age = { “TIC”, “Accounting”, “Psychology”, “Ethics”,
+“Legal_age” }
+
+```{r}
+
+name_students <- c("Lilly Brown", "Davis Moore", "Susan Taylor", "Mike Jones","Tom Hill")
+name_courses_legal_age <- c("TIC","Accounting","Psychology","Ethics","Legal_age")
+
+rownames(students_matrix) <- name_students
+colnames(students_matrix) <- name_courses_legal_age
+
+students_matrix
+
+```
+
+3. RowSums, cbind
+
+
+3.1. Cree el vector total_grade_student que contenga la sumatoria de todas las notas por
+cada estudiante, utilice la función rowSum para hacerlo, tome en cuenta que solo debe
+considerar las primera 4 columnas, porque la última corresponde a la mayoría de
+edad.
+
+```{r}
+
+total_grade_student <- rowSums(students_matrix[,1:4])
+total_grade_student 
+
+```
+
+3.2. Pegue el vector total_grade_student con la matriz students_matrix por medio de la
+función cbind y asigne el resultado a una nueva matriz de nombre result_students.
+
+
+```{r}
+result_students <- cbind(students_matrix,total_grade_student)
+result_students
+```
+
+4. Seleccionando elementos de una matriz
+
+4.1. De la matriz result_students seleccione la fila 1, 3 y 5 y las columnas 2 y 4. Almacene el
+resultado en una variable de nombre selected_elements e imprima el resultado.
+
+```{r}
+selected_elements <- result_students[c(1,3,5),c(2,4)]
+selected_elements
+```
+5. Data frames
+
+
+5.1. Construya un data frame de nombre students_grades_df utilizando la matriz
+result_students como parámetro.
+
+5.2. Utilice la función subset en students_grades_df para filtrar por la siguiente condición:
+Que la columna Accounting sea mayor a 80 y que Legal_age sea verdadero.
+
+Legal Age dejo de ser un valor logico cuando lo metimos a la matriz, pero para este inciso funciona el valor 1 o 0
+
+```{r}
+result_students
+students_grades_df <- data.frame(result_students)
+students_grades_df
+
+
+subset(students_grades_df, Accounting * Legal_age >80 )
+
+
+```
+
+6. Funciones, Condicionales y Bucles
+6.1. Construya una función de nombre students_projection que recorra la matriz
+result_students.
+
+6.2. Al recorrer filas y columnas obtendrá el valor de la nota que se encuentra en cada
+celda de la matriz, con este valor aplique las siguientes condiciones para imprimir un
+mensaje:
+6.2.1. Si la nota es menor o igual a 45 imprima "Student at risk"
+6.2.2. Si la nota es mayor a 45 y menor a 61 imprima “Student may be approved”
+6.2.3. Si la nota es mayor o igual a 61 imprima “Student approved”
+6.3. Pruebe la función haciendo un llamado a la misma.
+
+```{r}
+result_students
+
+recorrer <- function( matriz){
+ columnas <- ncol(matriz) - 2
+   for (i in 1:nrow(matriz)){
+     for(x in 1:columnas){
+       nota <- matriz[i,x]
+     
+       x=x+1
+       
+       if(nota <= 45){
+         print("Student at risk")
+         print()
+       }
+       if(nota <45 & nota < 61){
+         print("student may be approve")
+       }
+       if(nota >= 61){
+         print("student approved")
+       }
+     }
+   
+    i=i+1
+  }
+}
+
+
+recorrer(result_students)
+
+
+
+```
+
+
+
+
+
+
